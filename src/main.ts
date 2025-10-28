@@ -1,5 +1,5 @@
 import './style.css'
-import { type PreguntaAPI, type Pregunta, type RespuestaAPI } from './types';
+import { type PreguntaAPI, type Pregunta } from './types';
 import he from 'he';
 
 const quizContainer = document.getElementById('quiz-container') as HTMLDivElement;
@@ -41,6 +41,8 @@ async function getPreguntasYProcesado(): Promise<Pregunta[]> {
             }
         })
 
+        console.log(preguntasProcesadas)
+
         return preguntasProcesadas
     } catch (error) {
         console.error('Falló el fetch: ', error)
@@ -54,9 +56,9 @@ function cargarPregunta() {
     const pregunta = preguntas[indicePreguntaActual]
     if (!pregunta) return
 
-    if (quizContainer && constrolsContainer && questionText && questionCounter && answerContainer) {
-        quizContainer.classList.remove('hidden')
-        constrolsContainer.classList.add('hidden')
+    
+        //quizContainer.classList.remove('hidden')
+        //constrolsContainer.classList.add('hidden')
 
         questionText.textContent = pregunta.pregunta
         questionCounter.textContent = `Pregunta ${indicePreguntaActual + 1} / ${preguntas.length}`
@@ -69,39 +71,38 @@ function cargarPregunta() {
             button.dataset.answer = respuesta
             answerContainer.appendChild(button)
         })
-    }
 }
 
 function mostrarGameOver() {
-    if (quizContainer && constrolsContainer && finalScore && startButton) {
-        quizContainer.classList.add('hidden')
-        constrolsContainer.classList.remove('hidden')
+    
+        //quizContainer.classList.add('hidden')
+       // constrolsContainer.classList.remove('hidden')
         finalScore.textContent = `¡Juego terminado! Tu puntuación: ${puntuacion} / ${preguntas.length}`
+        startButton.classList.remove('hidden')
         startButton.textContent = 'Jugar de nuevo'
-    }
+    
 }
 
 function enseñarCargando(cargando: boolean) {
     loadingIndicator.classList.toggle('hidden', !cargando)
 }
 
-async function empezarJuego() {
-    if (constrolsContainer && finalScore) {
-        constrolsContainer.classList.add('hidden')
+async function empezarJuego() { 
+       // constrolsContainer.classList.remove('hidden')
         finalScore.textContent = ''
-    }
-
+    
     preguntas = await getPreguntasYProcesado()
     puntuacion = 0
     indicePreguntaActual = 0
 
     if (preguntas.length > 0) {
+        startButton.classList.add('hidden')
         cargarPregunta()
     } else {
-        if (constrolsContainer && finalScore) {
+       
             finalScore.textContent = 'Error al cargar las preguntas. Inténtalo de nuevo. '
-            constrolsContainer.classList.remove('hidden')
-        }
+           // constrolsContainer.classList.remove('hidden')
+        
     }
 }
 
@@ -140,9 +141,11 @@ function manejadorClickRespuesta() {
     }, 1000)
 }
 
+startButton.addEventListener('click', () => empezarJuego())
+
 if (startButton) {
-    startButton.addEventListener('click', empezarJuego)
+    
 }
 if (answerContainer) {
-    answerContainer.addEventListener('click', manejadorClickRespuesta)
+    answerContainer.addEventListener('click', () => manejadorClickRespuesta())
 }
