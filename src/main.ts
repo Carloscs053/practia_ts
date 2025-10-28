@@ -2,11 +2,11 @@ import './style.css'
 import { type PreguntaAPI, type Pregunta } from './types';
 import he from 'he';
 
-const quizContainer = document.getElementById('quiz-container') as HTMLDivElement;
+//const quizContainer = document.getElementById('quiz-container') as HTMLDivElement;
 const questionCounter = document.getElementById('question-counter') as HTMLParagraphElement;
 const questionText = document.getElementById('question-text') as HTMLHeadingElement;
 const answerContainer = document.getElementById('answers-container') as HTMLDivElement;
-const constrolsContainer = document.getElementById('constrols-container') as HTMLDivElement;
+//const constrolsContainer = document.getElementById('constrols-container') as HTMLDivElement;
 const finalScore = document.getElementById('final-score') as HTMLParagraphElement;
 const startButton = document.getElementById('start-button') as HTMLButtonElement;
 const loadingIndicator = document.getElementById('loading-indicator') as HTMLParagraphElement;
